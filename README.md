@@ -146,8 +146,8 @@ String dateTime = format.format(date);
 修改第一条笔记：<br>
 ![time3](https://github.com/PresidentChao/NotePad/blob/master/时间戳戳效果2.jpg)<br>
 
-搜索动图效果：<br>
-![search.gif](https://github.com/PresidentChao/NotePad/blob/master/1.gif)<br>
+创建修改时间戳变化动图效果：<br>
+![search.gif](https://github.com/PresidentChao/NotePad/blob/master/3.gif)<br>
 
 - 笔记查询（按标题查询）
 
@@ -396,9 +396,9 @@ adapter = new MyCursorAdapter(
 ```
 由于目前为止并没有设置颜色的选项，所以创建的笔记都是白色背景的，但是结合下一个功能，背景更换，**让编辑笔记时的背景色跟笔记列表的该笔记背景色同为一种颜色。**<br>
 白色：<br>
-![time2](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/time2.png)<br>
+![time2](https://github.com/PresidentChao/NotePad/blob/master/白色.jpg)<br>
 与背景结合彩色：<br>
-![listcolor](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/listcolor.png)<br>
+![listcolor](https://github.com/PresidentChao/NotePad/blob/master/彩色.jpg)<br>
 
 - 背景更换
 
