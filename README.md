@@ -1,4 +1,4 @@
-﻿# 基于NotePad应用的功能扩展
+﻿# 期中实验 NotePad（记事本应用）
 ---
 ## 原应用展示
 图1：NotePad主界面<br>
@@ -16,20 +16,13 @@
 图7：长点“第二条笔记”，菜单<br>
 ![menu](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/menu.png)<br>
 
-## 拓展功能
+## 在原应用的基础上添加基础功能
 - NotesList中显示条目增加时间显示
 - 笔记查询（按标题查询）
-- UI美化
-- 背景更换
-- 导出笔记
-- 笔记排序
 
-## 拓展应用源码
-源码： [NotePad](https://github.com/douerza/NotePad/tree/master/NotePad)
+## 基础功能解析
 
-## 拓展功能解析
-
-- NotesList中显示条目增加时间显示
+### 1.NotesList中显示条目增加时间显示
 
 在NotePad原应用中，笔记列表只显示了笔记的标题。如图3、图6。要对它做时间扩展，可以把时间放在标题的下方。<br>
 首先，找到列表中item的布局：noteslist_item.xml。<br>
@@ -147,11 +140,11 @@ SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 String dateTime = format.format(date);
 ```
 运行效果（修改主题后，界面颜色与之前不一样，下文会提到）：<br>
-![time](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/time.png)<br>
+![time](https://github.com/PresidentChao/NotePad/blob/master/时间戳效果.jpg)<br>
 再添加一条笔记：<br>
-![time2](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/time2.png)<br>
+![time2](https://github.com/PresidentChao/NotePad/blob/master/时间戳效果1.jpg)<br>
 修改第一条笔记：<br>
-![time3](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/time3.png)<br>
+![time3](https://github.com/PresidentChao/NotePad/blob/master/时间戳戳效果2.jpg)<br>
 
 - 笔记查询（按标题查询）
 
