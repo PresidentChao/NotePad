@@ -139,12 +139,15 @@ Date date = new Date(now);
 SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 String dateTime = format.format(date);
 ```
-运行效果（修改主题后，界面颜色与之前不一样，下文会提到）：<br>
+运行效果：<br>
 ![time](https://github.com/PresidentChao/NotePad/blob/master/时间戳效果.jpg)<br>
 再添加一条笔记：<br>
 ![time2](https://github.com/PresidentChao/NotePad/blob/master/时间戳效果1.jpg)<br>
 修改第一条笔记：<br>
 ![time3](https://github.com/PresidentChao/NotePad/blob/master/时间戳戳效果2.jpg)<br>
+
+搜索动图效果：<br>
+![search.gif](https://github.com/PresidentChao/NotePad/blob/master/1.gif)<br>
 
 - 笔记查询（按标题查询）
 
@@ -277,19 +280,9 @@ String[] selectionArgs = { "%"+newText+"%" };
         android:label="@string/title_notes_search">
     </activity>
 ```
-笔记列表：<br>
-![notelist](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/notelist.png)<br>
-搜索界面：<br>
-![searchui](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/searchui.png)<br>
-搜索结果：<br>
-1：<br>
-![search](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/search1.png)<br>
-2：<br>
-![search](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/search2.png)<br>
-3：<br>
-![search](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/search3.png)<br>
+
 搜索动图效果：<br>
-![search.gif](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/GIF.gif)<br>
+![search.gif](https://github.com/PresidentChao/NotePad/blob/master/2.gif)<br>
 
 - UI美化
 
