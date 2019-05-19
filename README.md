@@ -149,7 +149,7 @@ String dateTime = format.format(date);
 创建修改时间戳变化动图效果：<br>
 ![search.gif](https://github.com/PresidentChao/NotePad/blob/master/3.gif)<br>
 
-- 笔记查询（按标题查询）
+### 2.笔记查询（按标题查询）
 
 要添加笔记查询功能，就要在应用中增加一个搜索的入口。找到菜单的xml文件，list_options_menu.xml，添加一个搜索的item，搜索图标用安卓自带的图标，设为总是显示：<br>
 ```
@@ -289,7 +289,9 @@ String[] selectionArgs = { "%"+newText+"%" };
 - 背景更换
 - 笔记排序
 
-- UI美化
+## 附加功能解析
+
+### 1.UI美化
 
 先给NotesList换个主题，把黑色换成白色，在AndroidManifest.xml中NotesList的Activity中添加：<br>
 ```
@@ -405,7 +407,7 @@ adapter = new MyCursorAdapter(
 与背景结合彩色：<br>
 ![listcolor](https://github.com/PresidentChao/NotePad/blob/master/彩色.jpg)<br>
 
-- 背景更换
+### 2.背景更换
 
 背景更换指的是编辑笔记时的背景色更换。编辑笔记的Activity为NoteEditor。同样的，在PROJECTION中添加颜色项：<br>
 ```
@@ -590,7 +592,7 @@ public class NoteColor extends Activity {
 背景更换动图效果：<br>
 ![changecolor.gif](https://github.com/PresidentChao/NotePad/blob/master/4.gif)<br>
 
-- 笔记排序
+### 3.笔记排序
 
 笔记排序相对来说简单，只要把Cursor的排序参数变换下就可以了。在菜单文件list_options_menu.xml中添加：<br>
 ```
@@ -676,16 +678,6 @@ private Cursor cursor;
 private String[] dataColumns = { NotePad.Notes.COLUMN_NAME_TITLE ,  NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE } ;
 private int[] viewIDs = { android.R.id.text1 , R.id.text1_time };
 ```
-菜单：<br>
-![sortmenu](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/sortmenu.png)<br>
-创建时间排序：<br>
-![createtime](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/createtime.png)<br>
-修改时间排序：<br>
-![modifytime](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/modifytime.png)<br>
-颜色排序：<br>
-![colorsort](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/colorsort.png)<br>
+笔记排序动图效果：<br>
+![changecolor.gif](https://github.com/PresidentChao/NotePad/blob/master/5.gif)<br>
 
-- 扩展后的目录结构
-
-![dirstructure1](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/dirstructure1.png)<br>
-![dirstructure2](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/dirstructure2.png)<br>
