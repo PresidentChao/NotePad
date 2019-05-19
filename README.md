@@ -284,6 +284,11 @@ String[] selectionArgs = { "%"+newText+"%" };
 搜索动图效果：<br>
 ![search.gif](https://github.com/PresidentChao/NotePad/blob/master/2.gif)<br>
 
+## 在基础功能上添加附加功能
+- UI美化
+- 背景更换
+- 笔记排序
+
 - UI美化
 
 先给NotesList换个主题，把黑色换成白色，在AndroidManifest.xml中NotesList的Activity中添加：<br>
@@ -291,7 +296,7 @@ String[] selectionArgs = { "%"+newText+"%" };
 android:theme="@android:style/Theme.Holo.Light"
 ```
 改变后如下图：<br>
-![main](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/main.png)<br>
+![main](https://github.com/PresidentChao/NotePad/blob/master/空.jpg)<br>
 UI美化主要是让NotesList和NoteSearch每条笔记都有背景色，并且能保存。要做到保存颜色的数据，最直接的办法就是在数据库中添加一个颜色的字段，在这之前在NotePad契约类中添加：<br>
 ```
 public static final String COLUMN_NAME_BACK_COLOR = "color";
@@ -581,210 +586,9 @@ public class NoteColor extends Activity {
     android:windowSoftInputMode="stateVisible"/>
 ```
 因为选择颜色就会响应对应的函数，而函数先将选择的颜色信息保存在color变量中，调用finish()后会执行onPause()，在onPause()中将颜色存入数据库，Activity从NoteColor回到NoteEditor，NoteEditor被唤醒，会调用NoteEditor的onResume()，onResume()中有读取数据库颜色信息将设置背景的操作，就达到了换背景色的作用，并且也达到了NoteList中笔记颜色更改与编辑背景一致的效果。
-修改笔记一的背景色：<br>
-![changecolornote](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/changecolornote1.png)<br>
-选择菜单上的衣服图标：<br>
-![choicecolor](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/choicecolor.png)<br>
-选择蓝色：<br>
-![background](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/background.png)<br>
-返回列表：<br>
-![changecolornote](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/changecolornote2.png)<br>
-动图效果：<br>
-![changecolor.gif](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/GIF2.gif)<br>
 
-- 导出笔记
-
-先在菜单文件中添加一个导出笔记的选项，editor_options_menu.xml：<br>
-```
-<item android:id="@+id/menu_output"
-    android:title="@string/menu_output" />
-```
-在NoteEditor中找到onOptionsItemSelected()方法，在菜单的switch中添加：<br>
-```
-//导出笔记选项
-   case R.id.menu_output:
-        outputNote();
-        break;
-```
-在NoteEditor中添加函数outputNote()：<br>
-```
-//跳转导出笔记的activity，将uri信息传到新的activity
-    private final void outputNote() {
-        Intent intent = new Intent(null,mUri);
-        intent.setClass(NoteEditor.this,OutputText.class);
-        NoteEditor.this.startActivity(intent);
-    }
-```
-在此之前，要对选择导出文件界面进行布局，新建布局output_text.xml，垂直线性布局放置EditText和Button，并创建OutputText的Acitvity，用来选择颜色。：<br>
-
-```
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingLeft="6dip"
-    android:paddingRight="6dip"
-    android:paddingBottom="3dip">
-    <EditText android:id="@+id/output_name"
-        android:maxLines="1"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="15dp"
-        android:layout_width="wrap_content"
-        android:ems="25"
-        android:layout_height="wrap_content"
-        android:autoText="true"
-        android:capitalize="sentences"
-        android:scrollHorizontally="true" />
-    <Button android:id="@+id/output_ok"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="@string/output_ok"
-        android:onClick="OutputOk" />
-</LinearLayout>
-```
-```
-public class OutputText extends Activity {
-   //要使用的数据库中笔记的信息
-    private static final String[] PROJECTION = new String[] {
-            NotePad.Notes._ID, // 0
-            NotePad.Notes.COLUMN_NAME_TITLE, // 1
-            NotePad.Notes.COLUMN_NAME_NOTE, // 2
-            NotePad.Notes.COLUMN_NAME_CREATE_DATE, // 3
-            NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE, // 4
-    };
-    //读取出的值放入这些变量
-    private String TITLE;
-    private String NOTE;
-    private String CREATE_DATE;
-    private String MODIFICATION_DATE;
-    //读取该笔记信息
-    private Cursor mCursor;
-    //导出文件的名字
-    private EditText mName;
-    //NoteEditor传入的uri，用于从数据库查出该笔记
-    private Uri mUri;
-    //关于返回与保存按钮的一个特殊标记，返回的话不执行导出，点击按钮才导出
-    private boolean flag = false;
-    private static final int COLUMN_INDEX_TITLE = 1;
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.output_text);
-        mUri = getIntent().getData();
-        mCursor = managedQuery(
-                mUri,        // The URI for the note that is to be retrieved.
-                PROJECTION,  // The columns to retrieve
-                null,        // No selection criteria are used, so no where columns are needed.
-                null,        // No where columns are used, so no where values are needed.
-                null         // No sort order is needed.
-        );
-        mName = (EditText) findViewById(R.id.output_name);
-    }
-    @Override
-    protected void onResume(){
-        super.onResume();
-        if (mCursor != null) {
-            // The Cursor was just retrieved, so its index is set to one record *before* the first
-            // record retrieved. This moves it to the first record.
-            mCursor.moveToFirst();
-            //编辑框默认的文件名为标题，可自行更改
-            mName.setText(mCursor.getString(COLUMN_INDEX_TITLE));
-        }
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (mCursor != null) {
-        //从mCursor读取对应值
-            TITLE = mCursor.getString(mCursor.getColumnIndex(NotePad.Notes.COLUMN_NAME_TITLE));
-            NOTE = mCursor.getString(mCursor.getColumnIndex(NotePad.Notes.COLUMN_NAME_NOTE));
-            CREATE_DATE = mCursor.getString(mCursor.getColumnIndex(NotePad.Notes.COLUMN_NAME_CREATE_DATE));
-            MODIFICATION_DATE = mCursor.getString(mCursor.getColumnIndex(NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE));
-            //flag在点击导出按钮时会设置为true，执行写文件
-            if (flag == true) {
-                write();
-            }
-            flag = false;
-        }
-    }
-    public void OutputOk(View v){
-        flag = true;
-        finish();
-    }
-    private void write()
-    {
-        try
-        {
-            // 如果手机插入了SD卡，而且应用程序具有访问SD的权限
-            if (Environment.getExternalStorageState().equals(
-                    Environment.MEDIA_MOUNTED)) {
-                // 获取SD卡的目录
-                File sdCardDir = Environment.getExternalStorageDirectory();
-                //创建文件目录
-                File targetFile = new File(sdCardDir.getCanonicalPath() + "/" + mName.getText() + ".txt");
-                //写文件
-                PrintWriter ps = new PrintWriter(new OutputStreamWriter(new FileOutputStream(targetFile), "UTF-8"));
-                ps.println(TITLE);
-                ps.println(NOTE);
-                ps.println("创建时间：" + CREATE_DATE);
-                ps.println("最后一次修改时间：" + MODIFICATION_DATE);
-                ps.close();
-                Toast.makeText(this, "保存成功,保存位置：" + sdCardDir.getCanonicalPath() + "/" + mName.getText() + ".txt", Toast.LENGTH_LONG).show();
-            }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-}
-```
-在AndroidManifest.xml中将这个Acitvity主题定义为对话框样式，并且加入权限：<br>
-```
-<!--添加导出activity-->
-        <activity android:name="OutputText"
-            android:label="@string/output_name"
-            android:theme="@android:style/Theme.Holo.Dialog"
-            android:windowSoftInputMode="stateVisible">
-        </activity>
-```
-```
- <!-- 在SD卡中创建与删除文件权限 -->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-    <!-- 向SD卡写入数据权限 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-```
-注解在代码注释部分，这里主要说明下flag作用和文件导出位置以及在写文件操作时关于sdcard路径的一些现象。<br>
-因为导出文件是写在onPause()中的，点击保存响应的函数里调用了finish()，而onPause()会在finish()之后调用，但是，onPause()在点击手机的返回键退出当前activity也会调用，也就是说，如果没有经过特殊处理，点击手机返回键也会进行导出文件，这与预想不符。所以特别设置了一个flag用于判断是否是点击导出按钮，是点击按钮，则flag设置为true，可以进行文件导出，否则flag为默认的false，判断语句为假，不能执行到导出文件的操作。<br>
-在拓展的导出文件功能中，我导出文件的路径设定为sdcard下。模拟器中确实导到sdcard目录下，但是手机却是到在内部存储里。我个人猜测下，我手机的存储分为内部存储设备和SD卡(内部存储设备可用的大概为二十几G，SD卡为十几G)，是不是内部存储设备算是被焊死在手机里的SD卡，再联想到以前用的安卓手机，内部根本没用什么存储空间，由SD卡来扩展，如今是机身自带大容量存储空间，所以本应用放在我的手机上读的路径就成了内部存储的路径？<br>
-笔记中有三条笔记：<br>
-![outputnotelist](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/outputnotelist.png)<br>
-点击第三条“楼五四”：<br>
-![note1](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/note1.png)<br>
-点击隐藏的菜单，选择导出笔记：<br>
- ![outputmenu](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/outputmenu.png)<br>
-文件名默认为标题，也可自己取名，点击确认导出：<br>
-![name1](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/name1.png)<br>
-保存成功，弹出提示：<br>
-![outputok1](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/outputok1.png)<br>
-到文件管理器查看文件：<br>
-![file1](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/file1.png)<br>
-点击刚导出的文件，用阅读器打开查看内容：<br>
-![txt1](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/txt1.png)<br>
-回到NotePad，进入笔记：<br>
-![note2](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/note2.png)<br>
-按刚才的步骤重复一遍：<br>
-![name2](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/name2.png)<br>
-![outputok2](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/outputok2.png)<br>
-![file2](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/file2.png)<br>
-![txt2](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/txt2.png)<br>
-把最后一条笔记也导出：<br>
-![note3](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/note3.png)<br>
-![name3](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/name3.png)<br>
-![outputok3](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/outputok3.png)<br>
-![file3](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/file3.png)<br>
-![txt3](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/txt3.png)<br>
+背景更换动图效果：<br>
+![changecolor.gif](https://github.com/PresidentChao/NotePad/blob/master/4.gif)<br>
 
 - 笔记排序
 
