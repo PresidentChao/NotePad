@@ -1,5 +1,10 @@
 ﻿# 期中实验 NotePad（记事本应用）
 ---
+
+## 成果应用展示
+成果动图效果：<br>
+![search.gif](https://github.com/PresidentChao/NotePad/blob/master/6.gif)<br>
+
 ## 原应用展示
 图1：NotePad主界面<br>
 ![NotePadMain](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/NotePadMain.png)<br>
@@ -15,11 +20,6 @@
 ![moreNotes](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/moreNotes.png)<br>
 图7：长点“第二条笔记”，菜单<br>
 ![menu](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/menu.png)<br>
-
-## 成果应用展示
-
-成果动图效果：<br>
-![search.gif](https://github.com/PresidentChao/NotePad/blob/master/6.gif)<br>
 
 ## 在原应用的基础上添加基础功能
 - NotesList中显示条目增加时间显示
