@@ -16,6 +16,11 @@
 图7：长点“第二条笔记”，菜单<br>
 ![menu](https://raw.githubusercontent.com/douerza/picture/master/NotePadPic/menu.png)<br>
 
+## 成果应用展示
+
+成果动图效果：<br>
+![search.gif](https://github.com/PresidentChao/NotePad/blob/master/6.gif)<br>
+
 ## 在原应用的基础上添加基础功能
 - NotesList中显示条目增加时间显示
 - 笔记查询（按标题查询）
